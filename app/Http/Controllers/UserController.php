@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        if (!Gate::allows('manage-user')) {
+        if (Gate::denies('manage-user')) {
             abort(403);
         }
     }

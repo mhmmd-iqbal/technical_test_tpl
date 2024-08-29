@@ -14,11 +14,11 @@
     <!-- Search and Filter Form -->
     <form method="GET" action="{{ route('products.index') }}" class="mb-4">
         <div class="row">
-            <div class="col-md-3 g-1">
+            <div class="col-md-4 g-1">
                 <input type="text" name="search" class="form-control" placeholder="Search data"
                        value="{{ request('search') }}">
             </div>
-            <div class="col-md-2 g-1">
+            <div class="col-md-4 g-1">
                 <select name="categories[]" id="categories" class="form-control" multiple="multiple">
                     @foreach ($allCategories as $category)
                         <option value="{{ $category->name }}" 

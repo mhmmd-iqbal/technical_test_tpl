@@ -53,7 +53,9 @@
                 <div class="mb-3">
                     <label for="image" class="form-label">Product Image</label>
                     <input type="file" name="image" class="form-control" accept="image/*" onchange="previewImage()">
-                    <img id="imagePreview" src="{{ Storage::url($product->image) }}" class="img-thumbnail mt-2" style="max-height: 200px" alt="{{ $product->name }}">
+                    @if ($product->image)
+                        <img id="imagePreview" src="{{ Storage::url($product->image) }}" class="img-thumbnail mt-2" style="max-height: 200px" alt="{{ $product->name }}">
+                    @endif
                 </div>
             </div>
         </div>
@@ -69,11 +71,13 @@
         const image = document.querySelector('input[name=image]');
         const imgPreview = document.querySelector('#imagePreview');
 
-        const oFReader = new FileReader();
-        oFReader.readAsDataURL(image.files[0]);
+        if (image.files && image.files[0]) {
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
 
-        oFReader.onload = function(oFREvent) {
-            imgPreview.src = oFREvent.target.result;
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
         }
     }
 
@@ -86,3 +90,4 @@
     });
 </script>
 @endsection
+
