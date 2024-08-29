@@ -27,9 +27,11 @@
                             <a class="nav-link" href="{{ route('register') }}"><i class="fa-solid fa-user-plus"></i> Register</a>
                         </li>
                     @else
+                        @can('manage-users')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.index') }}"><i class="fa-solid fa-users"></i> Users</a>
                         </li>
+                        @endcan
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('products.index') }}"><i class="fa-solid fa-box-open"></i> Products</a>
                         </li>
