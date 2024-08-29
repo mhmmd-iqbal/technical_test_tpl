@@ -8,15 +8,11 @@ use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
-    public function __construct()
+    public function index()
     {
         if (Gate::denies('manage-user')) {
             abort(403);
         }
-    }
-
-    public function index()
-    {
         $users = User::paginate(10);
         return view('users.index', compact('users'));
     }
