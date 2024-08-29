@@ -40,8 +40,18 @@
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                     </div>
 
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="checkbox" value="admin" id="role" name="role" {{ old('role') == 'admin' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="role">
+                            {{ __('Register as Admin') }}
+                        </label>
+                        @error('role')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100">
+                        <button type="submit" class="btn btn-sm btn-primary w-100">
                             {{ __('Register') }}
                         </button>
                     </div>
@@ -51,3 +61,4 @@
     </div>
 </div>
 @endsection
+

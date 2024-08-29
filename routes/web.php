@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,16 +23,8 @@ Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('r
 Route::post('register', [AuthController::class, 'register']);
 
 Route::middleware('auth')->group(function () {
-    Route::middleware(['role:admin'])
-    ->group(function () {
-        Route::resource('products', ProductController::class);
-    });
-
-    Route::middleware(['role:user'])
-    ->group(function () {
-        Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    });
-
+    Route::resource('products', ProductController::class);
+    Route::resource('users', UserController::class);
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 

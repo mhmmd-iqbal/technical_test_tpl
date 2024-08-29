@@ -11,6 +11,9 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            return redirect()->route('products.index');
+        }
         return view('auth.login');
     }
 
@@ -33,6 +36,9 @@ class AuthController extends Controller
 
     public function showRegistrationForm()
     {
+        if (Auth::check()) {
+            return redirect()->route('products.index');
+        }
         return view('auth.register');
     }
 
@@ -42,17 +48,21 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:admin,user',
         ]);
+
+        $role = $request->has('role') && $request->role === 'admin' ? 'admin' : 'user';
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user', // Default role is 'user'
+            'role' => $role,
         ]);
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'Registration successful! Please login.');
     }
+
 
     public function logout(Request $request)
     {
