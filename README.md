@@ -14,7 +14,6 @@ composer install
 - run migration
 ```
 php artisan migrate
-```
 php artisan key:generate
 ```
 - create link folder to storage
@@ -24,8 +23,6 @@ php artisan storage:link
 - create passport key
 ```
 php artisan passport:client --password
-```
-- run project
 ```
 - run project
 ```
