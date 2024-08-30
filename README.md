@@ -1,4 +1,3 @@
-# Konco Studio
 
 ## Requirement
 - PHP 8.3
