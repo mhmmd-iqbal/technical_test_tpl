@@ -62,7 +62,7 @@
                     <tr>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->description }}</td>
-                        <td>IDR{{ $product->price }}</td>
+                        <td>IDR{{ number_format($product->price, 0, ',', '.') }}</td>
                         <td>
                             @foreach($product->categories as $category)
                                 <span class="badge bg-secondary">{{ $category->name }}</span>

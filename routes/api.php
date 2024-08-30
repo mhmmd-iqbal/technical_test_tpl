@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/products', [ProductController::class, 'index']);
-    Route::post('/products', [ProductController::class, 'store'])->middleware('role:admin');
-    Route::put('/products/{product}', [ProductController::class, 'update'])->middleware('role:admin');
-    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->middleware('role:admin');
+    Route::get('/products/{id}', [ProductController::class, 'show']);
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::post('/products/{id}', [ProductController::class, 'update']);
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 });

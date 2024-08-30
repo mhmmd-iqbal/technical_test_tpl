@@ -31,6 +31,11 @@ class ProductRepository
         return $query->paginate(10);
     }
 
+    public function getProduct($id)
+    {
+        return Product::find($id);
+    }
+
     public function createProduct(array $data)
     {
         return Product::create($data);

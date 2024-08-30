@@ -31,6 +31,11 @@ class ProductService
         return $product;
     }
 
+    public function getProduct($id)
+    {
+        return $this->productRepository->getProduct($id);
+    }
+
     public function updateProduct($product, array $data)
     {
         $this->productRepository->updateProduct($product, $data);
