@@ -1,20 +1,111 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Laravel Passport API Documentation",
-        "description": "API Documentation for Laravel Passport Authentication",
-        "contact": {
-            "email": "support@example.com"
-        },
+        "title": "API Documentation",
         "version": "1.0.0"
     },
     "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user",
+                "operationId": "8e4e3cb7b46126f4696379d3c7eeb4ad",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "admin2@kemenaker.go.id"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "11112222"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "admin",
+                                            "user"
+                                        ],
+                                        "example": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "statusCode": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User has been registered successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token_type": {
+                                                    "type": "string",
+                                                    "example": "Bearer"
+                                                },
+                                                "expires_in": {
+                                                    "type": "integer",
+                                                    "example": 31536000
+                                                },
+                                                "access_token": {
+                                                    "type": "string",
+                                                    "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+                                                },
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "def50200a738325ef221805b8b867c9342af..."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Login a user",
+                "summary": "Login an existing user",
                 "operationId": "222b2625838e3c57e017987f73598fda",
                 "requestBody": {
                     "required": true,
@@ -29,12 +120,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "mhmmd.iqbal.june@gmail.com"
+                                        "example": "admin2@kemenaker.go.id"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "12341234"
+                                        "example": "11112222"
                                     }
                                 },
                                 "type": "object"
@@ -44,22 +135,43 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "User logged in successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "access_token": {
-                                            "type": "string",
-                                            "example": "your-access-token"
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        "token_type": {
-                                            "type": "string",
-                                            "example": "Bearer"
-                                        },
-                                        "expires_in": {
+                                        "statusCode": {
                                             "type": "integer",
-                                            "example": 31536000
+                                            "example": 200
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User has been logged in successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token_type": {
+                                                    "type": "string",
+                                                    "example": "Bearer"
+                                                },
+                                                "expires_in": {
+                                                    "type": "integer",
+                                                    "example": 31536000
+                                                },
+                                                "access_token": {
+                                                    "type": "string",
+                                                    "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+                                                },
+                                                "refresh_token": {
+                                                    "type": "string",
+                                                    "example": "def50200513b565cba304d304ee0496c8086..."
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -68,7 +180,7 @@
                         }
                     },
                     "401": {
-                        "description": "Invalid credentials"
+                        "description": "Unauthorized"
                     }
                 }
             }
@@ -76,77 +188,150 @@
         "/api/products": {
             "get": {
                 "tags": [
-                    "products"
+                    "Products"
                 ],
-                "summary": "Get all products",
-                "description": "Retrieve a list of all products",
+                "summary": "Get list of products",
                 "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
-                "parameters": [
-                    {
-                        "name": "search",
-                        "in": "query",
-                        "description": "Search by name",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Apple"
-                    },
-                    {
-                        "name": "categories",
-                        "in": "query",
-                        "description": "Filter by categories",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "example": "['Food', 'Electronics']"
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Products retrieved successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "first_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/products?page=1"
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "nullable": true
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/products?page=1"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": "string",
+                                                                "nullable": true
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "&laquo; Previous"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "next_page_url": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/products"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "prev_page_url": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "nullable": true
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
-                    "products"
+                    "Products"
                 ],
                 "summary": "Create a new product",
-                "description": "Create a new product",
                 "operationId": "785644b7d7dd38af4b51dafd0fbc1b6d",
                 "requestBody": {
-                    "description": "Product information",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "price"
+                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "Apple iPhone"
+                                        "example": "Product Name"
                                     },
                                     "description": {
                                         "type": "string",
-                                        "example": "This is an iPhone"
+                                        "example": "Product Description"
                                     },
                                     "price": {
-                                        "type": "integer",
-                                        "example": 1000
-                                    },
-                                    "image": {
-                                        "type": "string",
-                                        "format": "binary"
+                                        "type": "number",
+                                        "example": 99.99
                                     },
                                     "categories": {
                                         "type": "array",
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"
@@ -156,21 +341,65 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Product created successfully"
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product created successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Product Name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Product Description"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "example": 99.99
+                                                },
+                                                "categories": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "path/to/image.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "422": {
-                        "description": "Invalid input"
+                    "403": {
+                        "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
         "/api/products/{id}": {
             "get": {
                 "tags": [
-                    "products"
+                    "Products"
                 ],
-                "summary": "Get a product by ID",
-                "description": "Retrieve a product by ID",
+                "summary": "Get a specific product by ID",
                 "operationId": "c87fb2e4d617e7b36c712cad358acdb8",
                 "parameters": [
                     {
@@ -180,54 +409,72 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        },
-                        "example": 1
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "products"
-                ],
-                "summary": "Delete a product",
-                "description": "Delete a product",
-                "operationId": "b49ce9f3cb168b233245548fb4ef36d3",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Product ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Product deleted successfully"
+                        "description": "Product retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product retrieved successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Product Name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Product Description"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "example": 99.99
+                                                },
+                                                "categories": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "path/to/image.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Product not found"
                     },
-                    "422": {
-                        "description": "Invalid input"
+                    "403": {
+                        "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             },
-            "patch": {
+            "put": {
                 "tags": [
-                    "products"
+                    "Products"
                 ],
-                "summary": "Update a product",
-                "description": "Update a product",
-                "operationId": "7b6a99d3d6d5c75a1ef063b213e8d068",
+                "summary": "Update an existing product",
+                "operationId": "416e4959a3919547eb609d87e3db9135",
                 "parameters": [
                     {
                         "name": "id",
@@ -236,38 +483,41 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        },
-                        "example": 1
+                        }
                     }
                 ],
                 "requestBody": {
-                    "description": "Product information",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "price"
+                                ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "Apple iPhone"
+                                        "example": "Updated Product Name"
                                     },
                                     "description": {
                                         "type": "string",
-                                        "example": "This is an iPhone"
+                                        "example": "Updated Product Description"
                                     },
                                     "price": {
-                                        "type": "integer",
-                                        "example": 1000
-                                    },
-                                    "image": {
-                                        "type": "string",
-                                        "format": "binary"
+                                        "type": "number",
+                                        "example": 99.99
                                     },
                                     "categories": {
                                         "type": "array",
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"
@@ -277,26 +527,112 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Product updated successfully"
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Updated Product Name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Updated Product Description"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "example": 99.99
+                                                },
+                                                "categories": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "path/to/image.jpg"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "404": {
-                        "description": "Product not found"
-                    },
-                    "422": {
-                        "description": "Invalid input"
+                    "403": {
+                        "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete a product",
+                "operationId": "b49ce9f3cb168b233245548fb4ef36d3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product deleted successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         }
     },
     "tags": [
         {
-            "name": "Authentication",
-            "description": "Authentication"
+            "name": "Products",
+            "description": "API Endpoints for managing products"
         },
         {
-            "name": "products",
-            "description": "products"
+            "name": "Authentication",
+            "description": "Authentication"
         }
     ]
 }

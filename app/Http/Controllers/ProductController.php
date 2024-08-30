@@ -18,6 +18,7 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
+
     public function index(Request $request)
     {
         if (Gate::denies('view-products')) {
